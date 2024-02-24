@@ -1,5 +1,6 @@
 package page_objects;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -29,6 +30,7 @@ public class MainPageScooter {
     //Метод, раскрывающий аккордеон
     public void clickAccordeonItem(String accordeonText) {
         InitialazeAccordeonItems(accordeonText);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", question);
         driver.findElement(question).click();
     }
     //Метод, ожидающий загрузку ответа аккордеона
@@ -39,6 +41,7 @@ public class MainPageScooter {
     //Метод, получающий текст аккордеона
     public String getAccordeonAnswerText(String accordeonText){
         InitialazeAccordeonItems(accordeonText);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", answer);
         return driver.findElement(answer).getText();
     }
 }
