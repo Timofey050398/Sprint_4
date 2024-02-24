@@ -11,7 +11,7 @@ public class MainPageScooter {
     // локатор кнопки «Заказать»
     private By orderButton = By.xpath("//*[@class='Home_ThirdPart__LSTEE']//button[text()='Заказать']");
     ///Локатор элемента вопроса
-    private By question1;
+    private By question;
     //Локатор текста ответа
     private By answer;
 
@@ -19,8 +19,8 @@ public class MainPageScooter {
         this.driver = driver;
     }
     private void InitialazeAccordeonItems(String accordeonText){
-       question1 = By.xpath("//*[@class=accordion__button] and contains(text(), "+accordeonText+"");
-       answer = By.xpath("//div[@class='accordion__panel' and @aria-labelledby=" + driver.findElement(question1).getAttribute("id") + "]/p");
+       question = By.xpath("//*[@class=accordion__button] and contains(text(), "+accordeonText+"");
+       answer = By.xpath("//div[@class='accordion__panel' and @aria-labelledby=" + driver.findElement(question).getAttribute("id") + "]/p");
     }
     //Метод, нажимающий кнопку заказать
     public void clickOrderButton() {
@@ -29,7 +29,7 @@ public class MainPageScooter {
     //Метод, раскрывающий аккордеон
     public void clickAccordeonItem(String accordeonText) {
         InitialazeAccordeonItems(accordeonText);
-        driver.findElement(question1).click();
+        driver.findElement(question).click();
     }
     //Метод, ожидающий загрузку ответа аккордеона
     public void waitForLoadAccordeonAnswer(String accordeonText) {
