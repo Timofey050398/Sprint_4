@@ -76,9 +76,10 @@ public class OrderPageScooter {
     }
     //Метод, устанавливающий станцию метро
     public void setUndergroundStation(int stationNumber){
-        undergroundValue = By.xpath("//li["+stationNumber+1+"]");
-        WebElement undergroundStation = driver.findElement(undergroundValue);
+        int elementNumber = stationNumber-1;
         driver.findElement(undergroundPicker).click();
+        undergroundValue = By.xpath("//li["+elementNumber+"]");
+        WebElement undergroundStation = driver.findElement(undergroundValue);
         new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul")));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", undergroundStation);
         undergroundStation.click();
@@ -113,13 +114,13 @@ public class OrderPageScooter {
             driver.findElement(datePickerNextButton).click();
             currentDatePickerMonth = driver.findElement(datePickerMonthAndYear).getText();
         }
-        datePickerDay = By.xpath("//div[@class='react-datepicker__day' and text()="+date+"]");
+        datePickerDay = By.xpath("//div[@class='react-datepicker__day' and text()='"+date+"']");
         driver.findElement(datePickerDay).click();
     }
     //Метод, выбирающий срок аренды
     public void setRentalPeriod(String rentalPeriod){
         driver.findElement(rentInput).click();
-        dropdownOptions = By.xpath("[@class = 'Dropdown-option' and text()="+rentalPeriod+"]");
+        dropdownOptions = By.xpath("[@class = 'Dropdown-option' and text()='"+rentalPeriod+"']");
         WebElement dropdownOption = driver.findElement(dropdownOptions);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", dropdownOption);
         dropdownOption.click();
@@ -151,10 +152,12 @@ public class OrderPageScooter {
         setScooterColor(colorOption);
         setComment(comment);
     }
+    //Метод, подтверждающий заказ
     public void confirmOrder(){
         new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.visibilityOfElementLocated(orderModalHeader));
         driver.findElement(confirmOrderButton).click();
     }
+    //Метод, возвращающий текст заголовка модалки
     public String getModalHeaderText(){
         return driver.findElement(orderModalHeader).getText();
     }

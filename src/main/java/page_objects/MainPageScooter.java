@@ -19,28 +19,28 @@ public class MainPageScooter {
     public MainPageScooter(WebDriver driver){
         this.driver = driver;
     }
-    private void InitialazeAccordeonItems(String accordeonText){
-       question = By.xpath("//*[@class=accordion__button] and contains(text(), "+accordeonText+"");
-       answer = By.xpath("//div[@class='accordion__panel' and @aria-labelledby=" + driver.findElement(question).getAttribute("id") + "]/p");
+    private void initializeAccordionItems(String accordionText){
+       question = By.xpath("//*[@class='accordion__button' and text()='"+accordionText+"']");
+       answer = By.xpath("//div[@class='accordion__panel' and @aria-labelledby='" + driver.findElement(question).getAttribute("id") + "']/p");
     }
     //Метод, нажимающий кнопку заказать
     public void clickOrderButton() {
         driver.findElement(orderButton).click();
     }
     //Метод, раскрывающий аккордеон
-    public void clickAccordeonItem(String accordeonText) {
-        InitialazeAccordeonItems(accordeonText);
+    public void clickAccordionItem(String accordeonText) {
+        initializeAccordionItems(accordeonText);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", question);
         driver.findElement(question).click();
     }
     //Метод, ожидающий загрузку ответа аккордеона
-    public void waitForLoadAccordeonAnswer(String accordeonText) {
-        InitialazeAccordeonItems(accordeonText);
+    public void waitForLoadAccordionAnswer(String accordeonText) {
+        initializeAccordionItems(accordeonText);
         new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.visibilityOfElementLocated(answer));
     }
     //Метод, получающий текст аккордеона
-    public String getAccordeonAnswerText(String accordeonText){
-        InitialazeAccordeonItems(accordeonText);
+    public String getAccordionAnswerText(String accordeonText){
+        initializeAccordionItems(accordeonText);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", answer);
         return driver.findElement(answer).getText();
     }

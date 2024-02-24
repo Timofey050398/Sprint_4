@@ -31,13 +31,13 @@ public class AccordeonTest {
     @Test
     public void isAnswerCorrect() {
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox", "--headless", "--disable-dev-shm-usage", "--remote-allow-origins=*");
+        options.addArguments("--no-sandbox", "--headless", "--disable-dev-shm-usage");
         WebDriver driver = new ChromeDriver(options);
         driver.get("https://qa-scooter.praktikum-services.ru/");
         MainPageScooter objMainPage = new MainPageScooter(driver);
-        objMainPage.clickAccordeonItem(question);
-        objMainPage.waitForLoadAccordeonAnswer(question);
-        String result = objMainPage.getAccordeonAnswerText(question);
+        objMainPage.clickAccordionItem(question);
+        objMainPage.waitForLoadAccordionAnswer(question);
+        String result = objMainPage.getAccordionAnswerText(question);
         assertEquals("Текст ответа не соответсвует ожиданиям",answer, result);
         driver.quit();
     }
