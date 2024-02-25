@@ -27,33 +27,29 @@ public class OrderPageScooter {
     // локатор инпута «Телефон»
     private By phoneNumberInput = By.cssSelector("input[placeholder='* Телефон: на него позвонит курьер']");
     // локатор кнопки «Далее»
-    private By furtherButton = By.xpath("//button[@class='Button_Button__ra12g Button_Middle__1CSJM' and text()='Далее'");
+    private By furtherButton = By.xpath("//div[@class='Order_NextButton__1_rCA']/button[text()='Далее']");
     // локатор инпута «Дата»
     private By datePickerInput = By.cssSelector("input[placeholder='* Когда привезти самокат']");
     // локатор даты в календаре
     private By datePickerDay;
-    //локатор месяца и года в календаре
-    private By datePickerMonthAndYear = By.className("react-datepicker__current-month");
-    //локатор кнопки вперед в календаре
-    private By datePickerNextButton = By.className("react-datepicker__navigation react-datepicker__navigation--next");
     //локатор календаря
     private By datePicker = By.className("react-datepicker__month-container");
     // локатор инпута «Срок»
-    private By rentInput = By.cssSelector("input[placeholder='* Срок аренды']");
+    private By rentInput = By.xpath("//div[@class='Dropdown-placeholder' and text()='* Срок аренды']");
     //локатор списка вариантов
     private By dropdownOptions;
     //локатор чек-бокса "чёрный жемчуг"
-    private By blackCheckBox = By.xpath("//button[@class='Checkbox_Label__3wxSf' and text()='чёрный жемчуг'");
+    private By blackCheckBox = By.id("grey");
     //локатор чек-бокса "серая безысходоность"
-    private By greyCheckBox = By.xpath("//button[@class='Checkbox_Label__3wxSf' and text()='серая безысходность'");
+    private By greyCheckBox = By.id("black");
     // локатор инпута «Комментарий»
     private By commentInput = By.cssSelector("input[placeholder='Комментарий для курьера']");
     // локатор кнопки «Заказать»
-    private By orderButton = By.xpath("//button[@class='Button_Button__ra12g Button_Middle__1CSJM' and text()='Заказать'");
+    private By orderButton = By.xpath("//div[@class='Order_Buttons__1xGrp']/button[text()='Заказать']");
     //Локатор заголовка модалки
     private By orderModalHeader = By.className("Order_ModalHeader__3FDaJ");
     //Локатор кнопки подтверждения заказа
-    private By confirmOrderButton = By.xpath("//*[@class='Button_Button__ra12g Button_Middle__1CSJM' and text()='Да']");
+    private By confirmOrderButton = By.xpath("//button[text()='Да']");
 
     public OrderPageScooter(WebDriver driver){
         this.driver = driver;
@@ -106,21 +102,16 @@ public class OrderPageScooter {
         new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.visibilityOfElementLocated(secondScreen));
     }
     //Метод, выбирающий дату в дейтпикере
-    public void setDate(String monthAndYear,String date) {
+    public void setDate(String date) {
         driver.findElement(datePickerInput).click();
         new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.visibilityOfElementLocated(datePicker));
-        String currentDatePickerMonth = driver.findElement(datePickerMonthAndYear).getText();
-        while (!Objects.equals(monthAndYear, currentDatePickerMonth)){
-            driver.findElement(datePickerNextButton).click();
-            currentDatePickerMonth = driver.findElement(datePickerMonthAndYear).getText();
-        }
-        datePickerDay = By.xpath("//div[@class='react-datepicker__day' and text()='"+date+"']");
+        datePickerDay = By.cssSelector("[aria-label*=\""+date+"\"]");
         driver.findElement(datePickerDay).click();
     }
     //Метод, выбирающий срок аренды
     public void setRentalPeriod(String rentalPeriod){
         driver.findElement(rentInput).click();
-        dropdownOptions = By.xpath("[@class = 'Dropdown-option' and text()='"+rentalPeriod+"']");
+        dropdownOptions = By.xpath("//div[@class='Dropdown-menu']/div[text()='"+rentalPeriod+"']");
         WebElement dropdownOption = driver.findElement(dropdownOptions);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", dropdownOption);
         dropdownOption.click();
@@ -145,9 +136,9 @@ public class OrderPageScooter {
         driver.findElement(orderButton).click();
     }
     //Метод, заполняющий форму второго экрана
-    public void fillSecondScreenForm(String monthAndYear, String date, String rentalPeriod, String colorOption, String comment){
+    public void fillSecondScreenForm(String date, String rentalPeriod, String colorOption, String comment){
         waitForLoadSecondScreen();
-        setDate(monthAndYear,date);
+        setDate(date);
         setRentalPeriod(rentalPeriod);
         setScooterColor(colorOption);
         setComment(comment);
@@ -159,6 +150,7 @@ public class OrderPageScooter {
     }
     //Метод, возвращающий текст заголовка модалки
     public String getModalHeaderText(){
+        new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.invisibilityOfElementLocated(confirmOrderButton));
         return driver.findElement(orderModalHeader).getText();
     }
 }

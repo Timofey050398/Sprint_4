@@ -13,7 +13,7 @@ public class NotFoundImageTest {
     @Test
     public void refFromOrderStatusPageFlowTest(){
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox", "--headless", "--disable-dev-shm-usage");
+        options.addArguments("--no-sandbox", "--disable-dev-shm-usage", "--headless");
         driver = new ChromeDriver(options);
         driver.get("https://qa-scooter.praktikum-services.ru/");
         HeaderScooter objHeader = new HeaderScooter(driver);
@@ -23,7 +23,7 @@ public class NotFoundImageTest {
         String result = driver.getCurrentUrl();
         assertEquals("URL страницы не совпадает с ожидаемым","https://qa-scooter.praktikum-services.ru/track?t="+wrongNumber, result);
         result = objTrackPage.getNotFoundImage();
-        assertEquals("Изображение не совпадает с ожидаемым","/assets/not-found.png", result);
+        assertEquals("Изображение не совпадает с ожидаемым","https://qa-scooter.praktikum-services.ru/assets/not-found.png", result);
     }
     @After
     public void teardown() {

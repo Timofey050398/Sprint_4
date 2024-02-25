@@ -25,12 +25,13 @@ public class MainPageScooter {
     }
     //Метод, нажимающий кнопку заказать
     public void clickOrderButton() {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", driver.findElement(orderButton));
         driver.findElement(orderButton).click();
     }
     //Метод, раскрывающий аккордеон
     public void clickAccordionItem(String accordeonText) {
         initializeAccordionItems(accordeonText);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", question);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", driver.findElement(question));
         driver.findElement(question).click();
     }
     //Метод, ожидающий загрузку ответа аккордеона
@@ -41,7 +42,7 @@ public class MainPageScooter {
     //Метод, получающий текст аккордеона
     public String getAccordionAnswerText(String accordeonText){
         initializeAccordionItems(accordeonText);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", answer);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", driver.findElement(answer));
         return driver.findElement(answer).getText();
     }
 }

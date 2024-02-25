@@ -35,7 +35,8 @@ public class ScooterButtonTest {
         driver.get("https://qa-scooter.praktikum-services.ru/");
         HeaderScooter objHeader = new HeaderScooter(driver);
         objHeader.checkOrderStatus("aaa");
-        new WebDriverWait(driver, Duration.ofSeconds(3));
+        new WebDriverWait(driver, Duration.ofSeconds(2));
+        objHeader.clickScooterButton();
         String result = driver.getCurrentUrl();
         assertEquals("URL страницы не совпадает с ожидаемым","https://qa-scooter.praktikum-services.ru/", result);
     }

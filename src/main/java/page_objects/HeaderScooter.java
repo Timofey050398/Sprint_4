@@ -14,9 +14,9 @@ public class HeaderScooter {
     // локатор кнопки «Узнать статус»
     private By statusButton = By.className("Header_Link__1TAG7");
     // локатор инпута номер заказа
-    private By orderNumberInput = By.className("Input_Input__1iN_Z Header_Input__xIoUq");
+    private By orderNumberInput = By.className("Header_Input__xIoUq");
     // локатор кнопки «Go!»
-    private By goButton = By.className("Button_Button__ra12g Header_Button__28dPO");
+    private By goButton = By.className("Header_Button__28dPO");
     // локатор кнопки «Яндекс»
     private By yandexButton = By.className("Header_LogoYandex__3TSOI");
     public HeaderScooter(WebDriver driver){
