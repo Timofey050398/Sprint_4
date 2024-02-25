@@ -6,7 +6,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
-import java.util.Objects;
 
 public class OrderPageScooter {
     private WebDriver driver;
@@ -144,13 +143,22 @@ public class OrderPageScooter {
         setComment(comment);
     }
     //Метод, подтверждающий заказ
-    public void confirmOrder(){
+    public void clickConfirmOrder(){
         new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.visibilityOfElementLocated(orderModalHeader));
         driver.findElement(confirmOrderButton).click();
     }
     //Метод, возвращающий текст заголовка модалки
     public String getModalHeaderText(){
+                return driver.findElement(orderModalHeader).getText();
+    }
+    //Ожидание скрытия кнопки первой модалки
+    public void waitForFirstModalHidden(){
         new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.invisibilityOfElementLocated(confirmOrderButton));
-        return driver.findElement(orderModalHeader).getText();
+    }
+    //Метод, объединяющий флоу завершения процесса аренды (Заказать --> Да --> Дождаться закрытия модалки подтверждения)
+    public void confirmRent(){
+        clickOrderButton();
+        clickConfirmOrder();
+        waitForFirstModalHidden();
     }
 }

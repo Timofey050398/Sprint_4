@@ -27,8 +27,7 @@ public class OrderFlowTest {
         objOrderPage.fillFirstScreenForm("Тимофей","Литвинов","улица два",5,"+79999999999" );
         objOrderPage.clickFurtherButton();
         objOrderPage.fillSecondScreenForm("3-е марта 2024","двое суток","both","");
-        objOrderPage.clickOrderButton();
-        objOrderPage.confirmOrder();
+        objOrderPage.confirmRent();
         String result = objOrderPage.getModalHeaderText();
         assertEquals("Отсутсвует ожидаемая надпись в модальном окне","Заказ оформлен", result);
     }
@@ -47,8 +46,7 @@ public class OrderFlowTest {
         objOrderPage.fillFirstScreenForm("Иван","Иванов","улица три",10,"89999999999" );
         objOrderPage.clickFurtherButton();
         objOrderPage.fillSecondScreenForm("18-е февраля 2024","семеро суток","black","hello");
-        objOrderPage.clickOrderButton();
-        objOrderPage.confirmOrder();
+        objOrderPage.confirmRent();
         String result = objOrderPage.getModalHeaderText();
         assertEquals("Отсутсвует ожидаемая надпись в модальном окне","Заказ оформлен", result);
     }
