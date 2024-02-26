@@ -1,0 +1,4 @@
+page_objects\HeaderScooter.class
+page_objects\OrderPageScooter.class
+page_objects\TrackPageScooter.class
+page_objects\MainPageScooter.class
