@@ -7,7 +7,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class MainPageScooter {
+public class MainPageScooter{
     private WebDriver driver;
     // локатор кнопки «Заказать»
     private By orderButton = By.xpath("//*[@class='Home_ThirdPart__LSTEE']//button[text()='Заказать']");

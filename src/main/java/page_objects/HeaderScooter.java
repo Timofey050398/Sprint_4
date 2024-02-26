@@ -5,7 +5,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
-public class HeaderScooter {
+public class HeaderScooter{
     private WebDriver driver;
     // локатор кнопки «Заказать»
     private By orderButton = By.xpath("//*[@class='Header_Header__214zg']//button[text()='Заказать']");

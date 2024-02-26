@@ -2,16 +2,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import page_objects.MainPageScooter;
 
+import static constants.ScooterUrls.SCOOTER_MAIN_PAGE_URL;
+import static constants.ReturnDriver.RETURN_CHROME_DRIVER;
 import static org.junit.Assert.assertEquals;
 @RunWith(Parameterized.class)
-public class AccordeonTest {
+public class AccordionTest {
     private final String question;
     private final String answer;
-    public AccordeonTest(String question, String answer){
+    public AccordionTest(String question, String answer){
         this.question = question;
         this.answer = answer;
     }
@@ -30,10 +30,8 @@ public class AccordeonTest {
     }
     @Test
     public void isAnswerCorrect() {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox", "--headless", "--disable-dev-shm-usage");
-        WebDriver driver = new ChromeDriver(options);
-        driver.get("https://qa-scooter.praktikum-services.ru/");
+        WebDriver driver = RETURN_CHROME_DRIVER();
+        driver.get(SCOOTER_MAIN_PAGE_URL);
         MainPageScooter objMainPage = new MainPageScooter(driver);
         objMainPage.clickAccordionItem(question);
         objMainPage.waitForLoadAccordionAnswer(question);

@@ -1,58 +1,77 @@
-import org.junit.After;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import page_objects.CookieScooter;
-import page_objects.HeaderScooter;
-import page_objects.MainPageScooter;
-import page_objects.OrderPageScooter;
+import page_objects.*;
 
+import static constants.ReturnDriver.RETURN_CHROME_DRIVER;
+import static constants.ScooterUrls.SCOOTER_MAIN_PAGE_URL;
 import static org.junit.Assert.assertEquals;
 
+
+
+@RunWith(Parameterized.class)
 public class OrderFlowTest {
-    private WebDriver driver;
+    private final String startException;
+    private final String firstName;
+    private final String lastName;
+    private final String address;
+    private final int quantity;
+    private final String phoneNumber;
+    private final String date;
+    private final String duration;
+    private final String color;
+    private final String message;
 
-    @Test
-    public void positiveOrderCaseStartedFromMainPage(){
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox","--headless", "--disable-dev-shm-usage");
-        driver = new ChromeDriver(options);
-        driver.get("https://qa-scooter.praktikum-services.ru/");
-        MainPageScooter objMainPage = new MainPageScooter(driver);
-        CookieScooter objCookie = new CookieScooter(driver);
-        objCookie.clickCookieButton();
-        objMainPage.clickOrderButton();
-        OrderPageScooter objOrderPage = new OrderPageScooter(driver);
-        objOrderPage.fillFirstScreenForm("Тимофей","Литвинов","улица два",5,"+79999999999" );
-        objOrderPage.clickFurtherButton();
-        objOrderPage.fillSecondScreenForm("3-е марта 2024","двое суток","both","");
-        objOrderPage.confirmRent();
-        String result = objOrderPage.getModalHeaderText();
-        assertEquals("Отсутсвует ожидаемая надпись в модальном окне","Заказ оформлен", result);
+
+    public OrderFlowTest(String startException, String firstName, String lastName, String address, int quantity, String phoneNumber, String date, String duration, String color, String message){
+        this.startException = startException;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.quantity = quantity;
+        this.phoneNumber = phoneNumber;
+        this.date = date;
+        this.duration = duration;
+        this.color = color;
+        this.message = message;
+    }
+
+
+    @Parameterized.Parameters
+    public static Object[][] data() {
+        return new Object[][]{
+                {"Header","Тимофей", "Литвинов", "улица два", 5, "+79999999999", "3-е марта 2024", "двое суток", "both", ""},
+                {"MainPage", "Иван", "Иванов", "улица три", 10, "89999999999", "18-е февраля 2024", "семеро суток", "black", "hello"}
+        };
     }
 
     @Test
-    public void positiveOrderCaseStartedFromHeader(){
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox", "--headless", "--disable-dev-shm-usage");
-        driver = new ChromeDriver(options);
-        driver.get("https://qa-scooter.praktikum-services.ru/");
-        HeaderScooter objHeader = new HeaderScooter(driver);
+    public void positiveOrderCase(){
+        WebDriver driver = RETURN_CHROME_DRIVER();
+        driver.get(SCOOTER_MAIN_PAGE_URL);
         CookieScooter objCookie = new CookieScooter(driver);
         objCookie.clickCookieButton();
-        objHeader.clickOrderButton();
+        if(startException == "MainPage") {
+            MainPageScooter objPage = new MainPageScooter(driver);
+            objPage.clickOrderButton();
+        } else if (startException == "Header"){
+            HeaderScooter objPage = new HeaderScooter(driver);
+            objPage.clickOrderButton();
+        } else {
+            throw new IllegalArgumentException("Invalid startException value");
+        }
         OrderPageScooter objOrderPage = new OrderPageScooter(driver);
-        objOrderPage.fillFirstScreenForm("Иван","Иванов","улица три",10,"89999999999" );
+        objOrderPage.fillFirstScreenForm(firstName,lastName,address,quantity,phoneNumber );
         objOrderPage.clickFurtherButton();
-        objOrderPage.fillSecondScreenForm("18-е февраля 2024","семеро суток","black","hello");
+        objOrderPage.fillSecondScreenForm(date,duration,color,message);
         objOrderPage.confirmRent();
         String result = objOrderPage.getModalHeaderText();
         assertEquals("Отсутсвует ожидаемая надпись в модальном окне","Заказ оформлен", result);
-    }
-    @After
-    public void teardown() {
-        // Закрой браузер
         driver.quit();
     }
 }
+
+
+
+
